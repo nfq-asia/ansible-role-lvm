@@ -1,0 +1,21 @@
+---
+# vars file for lvm
+
+config_lvm: true
+create: true
+resize: false
+extend: false
+#current_disk: '/dev/sda5'
+new_disk: '/dev/sdb'
+new_mntp: '/data'
+create_vgname: 'data-vg'
+#resize_vgname: 'test-vg'
+#extend_vgname: 'test-vg'
+create_lvname: 'data-lv'
+#resize_lvname: 'test-lv'
+#extend_lvname: 'test-lv'
+create_lvsize: '100%FREE'
+#extend_disks: '{{ current_disk }},{{ new_disk }}'
+lvextend_options: '-L+10G'
+filesystem: 'ext4'
+

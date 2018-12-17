@@ -1,0 +1,17 @@
+        - name: Create new LVM volume group
+          lvg: vg={{ create_vgname }} pvs={{ new_disk }} state=present
+          when: create and config_lvm
+        
+        - name: Create new LVM logical volume
+          lvol: vg={{ create_vgname }} lv={{ create_lvname }} size={{ create_lvsize }}
+          when: create and config_lvm
+
+        - name: Create new filesystem on new LVM logical volume
+          filesystem: fstype={{ filesystem }} dev=/dev/{{ create_vgname }}/{{ create_lvname }}
+          when: create and config_lvm
+
+        - name: mounting new filesystem
+          mount: name={{ new_mntp }} src=/dev/{{ create_vgname }}/{{ create_lvname }} fstype={{ filesystem }} state=mounted
+          when: create and config_lvm
+
+
