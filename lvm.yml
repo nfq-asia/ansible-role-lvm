@@ -3,11 +3,11 @@
   become: true
   
   pre_tasks:
-          - name: Update apt cache.
-            apt:
-               update_cache: true
-               cache_valid_time: 600
+    - name: Update apt cache.
+      apt:
+        update_cache: true
+        cache_valid_time: 600
   roles:
-          - role: lvm
-            task_name: create_lvm
+    - role: lvm
+      task_name: create_lvm
 

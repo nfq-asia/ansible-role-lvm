@@ -16,6 +16,6 @@ create_lvname: 'data-lv'
 #extend_lvname: 'test-lv'
 create_lvsize: '100%FREE'
 #extend_disks: '{{ current_disk }},{{ new_disk }}'
-lvextend_options: '-L+10G'
+#lvextend_options: '-L+10G'
 filesystem: 'ext4'
 
