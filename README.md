@@ -5,12 +5,12 @@ Create lvm with ansible
 Ansible create lvm automaticaly by command.
 We should define new disk device, volume group name, logical volume name, mount point file, file system type in file vars/main.yml
 
-Default vars:
-  new_disk: /dev/sdb
-  vg_name: data-vg
-  lv_name: data-lv
-  filesystem: ext4
-  mount_point: /data
+**Default vars:**
+ * new_disk: /dev/sdb
+ * vg_name: data-vg
+ * lv_name: data-lv
+ * filesystem: ext4
+ * mount_point: /data
 
 
 ```
