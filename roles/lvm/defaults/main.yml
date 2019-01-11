@@ -1,2 +1,10 @@
 ---
-# defaults file for lvm
+create_lvm: false
+remove_lvm: false
+
+disk: '/dev/xvdf'
+mnt_point: '/data'
+vgname: 'vg'
+lvname: 'lv'
+lvsize: '100%FREE'
+filesystem: 'ext4'

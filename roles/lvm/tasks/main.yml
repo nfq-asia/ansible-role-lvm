@@ -1,18 +1,28 @@
----       
+---
 - name: Create new LVM volume group
-  lvg: vg={{ create_vgname }} pvs={{ new_disk }} state=present
-  when: create and config_lvm
-        
+  lvg: vg={{ vgname }} pvs={{ disk }} state=present
+  when: create_lvm
+
 - name: Create new LVM logical volume
-  lvol: vg={{ create_vgname }} lv={{ create_lvname }} size={{ create_lvsize }}
-  when: create and config_lvm
+  lvol: vg={{ vgname }} lv={{ lvname }} size={{ lvsize }}
+  when: create_lvm
 
 - name: Create new filesystem on new LVM logical volume
-  filesystem: fstype={{ filesystem }} dev=/dev/{{ create_vgname }}/{{ create_lvname }}
-  when: create and config_lvm
+  filesystem: fstype={{ filesystem }} dev=/dev/{{ vgname }}/{{ lvname }}
+  when: create_lvm
 
-- name: mounting new filesystem
-  mount: name={{ new_mntp }} src=/dev/{{ create_vgname }}/{{ create_lvname }} fstype={{ filesystem }} state=mounted
-  when: create and config_lvm
+- name: Mounting new filesystem
+  mount: name={{ mnt_point }} src=/dev/{{ vgname }}/{{ lvname }} fstype={{ filesystem }} state=mounted
+  when: create_lvm
 
+- name: Unmount filesystem
+  mount: name={{ mnt_point }} src=/dev/{{ vgname }}/{{ lvname }} fstype={{ filesystem }} state=unmounted
+  when: remove_lvm
 
+- name: Remove new LVM volume group
+  lvol: vg={{ vgname }} lv={{ lvname }} state=absent force=yes
+  when: remove_lvm
+
+- name: Remove new LVM volume group
+  lvg: vg={{ vgname }} pvs={{ disk }} state=absent force=yes
+  when: remove_lvm
