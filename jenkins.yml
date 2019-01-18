@@ -9,7 +9,12 @@
   roles:
     - role: lvm
       vars:
-        create_lvm: true
-        mnt_point: '/var/lib/jenkins'
-        vgname: 'vg'
-        lvname: 'vl'
+        mounts_config:
+          data:
+            dev: /dev/vg/vl
+            fstype: ext4
+            opts: 'noatime,nodiratime'
+            mountpoint: /var/lib/jenkins
+            dump: '0'
+            passno: '2'
+            state: mounted
