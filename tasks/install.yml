@@ -42,7 +42,7 @@
     dev: "{{ item.value.dev }}"
     fstype: "{{ item.value.type }}"
     opts: "{{ item.value.opts }}"
-    resizefs: yes
+    resizefs: true
   with_dict: "{{ filesystems_config }}"
   tags:
     - filesystems
