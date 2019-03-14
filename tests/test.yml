@@ -1,0 +1,34 @@
+---
+- hosts: all
+  gather_facts: true
+  become: true
+
+  roles:
+    - role: nfq.lvm
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
+        lvm_config:
+          pvs:
+            - /dev/nvme1n1
+          vgs:
+            test_vg:
+              pvs:
+                - /dev/nvme1n1
+          lvs:
+            - name: test_lv
+              vg: test_vg
+              size: "+100%FREE"
+        filesystems_config:
+          data:
+            dev: /dev/test_vg/test_lv
+            type: ext4
+            opts: ''
+        mounts_config:
+          data:
+            dev: /dev/test_vg/test_lv
+            fstype: ext4
+            opts: 'noatime,nodiratime'
+            mountpoint: /var/test_lv
+            dump: '0'
+            passno: '2'
+            state: mounted
