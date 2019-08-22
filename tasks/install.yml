@@ -48,9 +48,20 @@
     - filesystems
     - resizefs
 
+- name: Get UUID of devices
+  command: blkid -s UUID -o value "{{ item.value.dev }}"
+  register: command_output
+  with_dict: "{{ mounts_config }}"
+
+- set_fact:
+    uuid_value: "{{ item.stdout }}"
+  loop: "{{ command_output.results }}"
+- debug:
+    msg: System show uuid {{ uuid_value }}
+
 - name: Mount filesystems
   mount:
-    src: "{{ item.value.dev }}"
+    src: "UUID=\"{{ uuid_value }}\""
     name: "{{ item.value.mountpoint }}"
     opts: "{{ item.value.opts }}"
     fstype: "{{ item.value.fstype }}"
