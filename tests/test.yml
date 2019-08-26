@@ -1,33 +1,42 @@
 ---
-- hosts: all
+- hosts: jenkins_master
   gather_facts: true
   become: true
+  vars:
+    ansible_ssh_user             : "ubuntu"
+    ansible_ssh_private_key_file : "~/.ssh/nfq-tools"
+    ansible_python_interpreter   : "/usr/bin/python3"
+    project_name  : "nfq"
+    env           : "tools"
+    terraform_version : "0.12.6"
+    terraform_dir     : "/var/lib/terraform-0.12.6"
+    ansible_version   : "2.8.1"
+    awscli_version    : "1.16.225"
   roles:
     - role: nfq.lvm
       vars:
-        ansible_python_interpreter: /usr/bin/python3
         lvm_config:
           pvs:
-            - /dev/nvme1n1
+            - "/dev/nvme1n1"
           vgs:
-            test_vg:
+            data:
               pvs:
-                - /dev/nvme1n1
+                - "/dev/nvme1n1"
           lvs:
-            - name: test_lv
-              vg: test_vg
+            - name: "jenkins"
+              vg: data
               size: "+100%FREE"
         filesystems_config:
           data:
-            dev: /dev/test_vg/test_lv
+            dev: "/dev/data/jenkins"
             type: ext4
             opts: ''
         mounts_config:
           data:
-            dev: /dev/test_vg/test_lv
+            dev: "/dev/data/jenkins"
             fstype: ext4
             opts: 'noatime,nodiratime'
-            mountpoint: /var/test_lv
+            mountpoint: "/var/lib/jenkins"
             dump: '0'
             passno: '2'
             state: mounted
