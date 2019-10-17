@@ -15,7 +15,7 @@
   register: lvm_pvresize_output
   tags:
     - lvm
-     resizefs
+    - resizefs
 
 - name: Conduct resize test of physical volumes
   shell: "pvresize {{ item.item }}"
