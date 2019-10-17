@@ -1,4 +1,17 @@
 ---
+
+- name: Check vgs created or not
+  shell: pvs | grep -q "{{ item.key }}" && echo Found || echo Not_found
+  with_dict: "{{ lvm_config['vgs'] }}"
+  register: command_output
+  tags:
+    - lvm
+- debug:
+    msg: "show config {{ item.stdout}}"
+  with_items: '{{command_output.results}}'
+
 - include: install.yml
   tags:
     - install
+  when: (item.stdout == 'Not_found')
+  with_items: '{{command_output.results}}'
