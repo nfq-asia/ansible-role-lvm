@@ -9,3 +9,6 @@
 
 # Ignore Ansible cfgmgmt
 *.retry
+
+# Ignore YAML Lint configuration file
+*.yamllint
